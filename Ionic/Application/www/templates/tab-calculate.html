@@ -1,0 +1,14 @@
+<ion-view view-title="Calculate">
+  <ion-content>
+    <div class="item range range-positive">
+      <label for="fader">Income</label>
+      <input
+        type="range"
+        name="inputIncome"
+        min="5000" max="250000" value="{{income}}"
+        id="fader"
+        oninput="outputUpdate(value)">
+      <output for="fader" id="inputIncome">{{income}}</output>
+    </div>
+  </ion-content>
+</ion-view>
