@@ -1,6 +1,6 @@
 angular.module('components', [])
 
-  .directive('moneySlider', function() {
+  .directive('opfMoneySlider', function() {
     return {
       restrict: 'E',
       transclude: false,
@@ -10,12 +10,22 @@ angular.module('components', [])
         max: '@max',
         title: '@title'
       },
-      template:
-        '<div class="item range range-positive">' +
-          '<label>{{title}}</label>' +
-          '<input type="range" ng-model="money" min="{{min}}" max="{{max}}"/>' +
-          '<output>{{money | currency}}</output>' +
-        '</div>',
+      templateUrl: 'templates/opf-money-slider.html',
+      replace: true
+    };
+  })
+
+  .directive('opfInterestSlider', function() {
+    return {
+      restrict: 'E',
+      transclude: false,
+      scope: {
+        interest: '@start',
+        min: '@min',
+        max: '@max',
+        title: '@title'
+      },
+      templateUrl: 'templates/opf-interest-slider.html',
       replace: true
     };
   })

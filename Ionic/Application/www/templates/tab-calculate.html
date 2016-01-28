@@ -1,5 +1,18 @@
-<ion-view view-title="Calculate">
-  <ion-content>
-    <money-slider title="Income" start="45000" min="5000" max="250000"/>
+<ion-view view-title="When Can I Retire?">
+  <ion-content scroll="false">
+      <!-- <opf-money-slider title="Income" start="45000" min="5000" max="250000"/> -->
+      <!-- <opf-money-slider title="Additional" start="45000" min="5000" max="250000"/> -->
+      <opf-interest-slider title="Interest" start="5" min="0" max="100"/>
+      <!-- <div class="item range range-positive">
+        <label>Income</label>
+        <input type="range" ng-model="money" min="5000" max="250000"/>
+        <output>{{money | currency}}</output>
+      </div>
+      <div class="item range range-positive">
+        <label>Additional</label>
+        <input type="range" ng-model="money2" min="5000" max="250000"/>
+        <output>{{money2 | currency}}</output>
+      </div> -->
+
   </ion-content>
 </ion-view>
