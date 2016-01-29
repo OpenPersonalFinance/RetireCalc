@@ -1,31 +1,35 @@
+
 angular.module('components', [])
 
   .directive('opfMoneySlider', function() {
+
     return {
       restrict: 'E',
+      replace: true,
+      require: 'ngModel',
       transclude: false,
+      templateUrl: 'templates/opf-money-slider.html',
       scope: {
-        money: '@start',
+        money: '=ngModel',
         min: '@min',
         max: '@max',
         title: '@title'
-      },
-      templateUrl: 'templates/opf-money-slider.html',
-      replace: true
+      }
     };
   })
 
   .directive('opfInterestSlider', function() {
     return {
       restrict: 'E',
+      replace: true,
+      require: 'ngModel',
       transclude: false,
+      templateUrl: 'templates/opf-interest-slider.html',
       scope: {
-        interest: '@start',
+        interest: '=ngModel',
         min: '@min',
         max: '@max',
         title: '@title'
-      },
-      templateUrl: 'templates/opf-interest-slider.html',
-      replace: true
+      }
     };
   })

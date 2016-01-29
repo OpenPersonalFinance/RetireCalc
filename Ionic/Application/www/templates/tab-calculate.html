@@ -1,18 +1,10 @@
-<ion-view view-title="When Can I Retire?">
+<ion-view view-title="{{'calculate_viewTitle' | translate}}">
   <ion-content scroll="false">
-      <!-- <opf-money-slider title="Income" start="45000" min="5000" max="250000"/> -->
-      <!-- <opf-money-slider title="Additional" start="45000" min="5000" max="250000"/> -->
-      <opf-interest-slider title="Interest" start="5" min="0" max="100"/>
-      <!-- <div class="item range range-positive">
-        <label>Income</label>
-        <input type="range" ng-model="money" min="5000" max="250000"/>
-        <output>{{money | currency}}</output>
-      </div>
-      <div class="item range range-positive">
-        <label>Additional</label>
-        <input type="range" ng-model="money2" min="5000" max="250000"/>
-        <output>{{money2 | currency}}</output>
-      </div> -->
-
+      <!--Something odd about directives means we wrap our sliders in divs-->
+      <div><opf-money-slider ng-model="monthlyIncome" title="calculate_monthlyIncome" min="0" max="20000"/></div>
+      <div><opf-money-slider ng-model="currentNetWorth" title="calculate_currentNetWorth" min="0" max="1000000"/></div>
+      <div><opf-interest-slider ng-model="savingRate" title="calculate_savingRate" min="0" max="100"/></div>
+      <div><opf-interest-slider ng-model="expectedReturn" title="calculate_expectedReturn" min="0" max="40"/></div>
+      <div><opf-interest-slider ng-model="withdrawalRate" title="calculate_withdrawalRate" min="0" max="40"/></div>
   </ion-content>
 </ion-view>
