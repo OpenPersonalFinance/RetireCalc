@@ -9,6 +9,9 @@ var Translation = {
       calculate_savingRate: "Saving Rate",
       calculate_expectedReturn: "Return Rate",
       calculate_withdrawalRate: "Withdrawal Rate",
+      calculate_monthlySavings: "Monthly Savings",
+      calculate_monthlySpending: "Monthly Spending",
+      calculate_yearlySpending: "Yearly Spending"
     },
 
     registerWithProvider: function(provider){
