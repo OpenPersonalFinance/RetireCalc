@@ -5,7 +5,7 @@ var Translation = {
     {
       calculate_viewTitle: "When Can I Retire?",
       calculate_monthlyIncome: "Monthly Income",
-      calculate_currentNetWorth: "Current Net Worth",
+      calculate_currentNetWorth: "Net Worth",
       calculate_savingRate: "Saving Rate",
       calculate_expectedReturn: "Return Rate",
       calculate_withdrawalRate: "Withdrawal Rate",
