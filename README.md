@@ -24,4 +24,6 @@ See the commit history for a list of contributors.
 
 ## License
 
-This project is licensed under the terms of the MIT license. See [LICENSE](LICENSE.md) for details.
+Software in this project is licensed under the terms of the MIT license. 
+Content in this project is licensed under the terms of the Creative Commons Attribution-ShareAlike 4.0 International License.
+See [LICENSE](LICENSE.md) for details.
