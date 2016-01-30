@@ -1,7 +1,7 @@
 <ion-view view-title="{{'calculate_viewTitle' | translate}}">
   <ion-content scroll="true">
 
-    <h5 align="center">Outputs</h4>
+    <h5 align="center">Retirement</h4>
     <ion-list type="card">
       <ion-item align="center">{{'calculate_monthlySavings' | translate}} = {{monthlySavings() | currency}}</ion-item>
       <ion-item align="center">{{'calculate_monthlySpending' | translate}} = {{monthlySpending() | currency}}</ion-item>
@@ -12,7 +12,7 @@
 
     </ion-list>
 
-    <h5 align="center">Inputs</h4>
+    <h5 align="center">Current</h4>
     <!--Something odd about directives means we wrap our sliders in divs-->
 
     <div><opf-interest-slider ng-model="savingRate" title="calculate_savingRate" min="0" max="100"/></div>
