@@ -51,7 +51,7 @@ angular.module('starter.controllers', [])
     }
     
             //gets years
-    return months / 12.0;
+    return (months / 12.0).toFixed(1);
   }
 
 });
