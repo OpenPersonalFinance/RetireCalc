@@ -1,57 +1,82 @@
 angular.module('starter.controllers', [])
 
 .controller('CalculateCtrl', function($scope) {
-  $scope.monthlyIncome = 7530;
-  $scope.currentNetWorth = 0;
-  $scope.savingRate = 75;
-  $scope.expectedReturn = 5;
-  $scope.withdrawalRate = 4;
-  
-  //I use this in later functions, is this ok pratice in JavaScript?
-  var netWorth = 0;
-            
-  $scope.monthlySavings = function(){
-    return this.monthlyIncome * ( this.savingRate / 100.0 );
-  }
-  $scope.monthlySpending = function(){
-    return this.monthlyIncome - this.monthlySavings();
-  }
-  $scope.yearlySpending = function(){
-    return this.monthlySpending() * 12;
-  }
-  $scope.nestEgg = function(){
-    //Calculated in yearsToRetire function
-    return netWorth;
-  }
-  $scope.retireDate = function(){
-    return new Date( 2055, 12, 27 );
-  }
-  $scope.yearsToRetire = function(){
+  var monthlyIncome = 5000;
+  var currentNetWorth = 10000;
+  var savingRate = 15;
+  var expectedReturn = 5;
+  var withdrawalRate = 4;
+  var nestEgg = 0;
+  var yearsToRetire = 0;
+
+  function calculateRetirement() {
+
     //get spending and savings as floats instead of money
-    var spending       = parseFloat(this.monthlySpending());
-    var savings        = parseFloat(this.monthlySavings());
-    //based on netWorth and withdrawal rate
-    var interestIncome = 0;
+    var spending       = $scope.monthlySpending;
+    var savings        = $scope.monthlySavings;
+
+
     //the number of months I save/invest
     var months         = 0;
-    var rate           = this.expectedReturn / 100.0;
-         
-            //First month has no interest
-    netWorth = parseFloat(this.currentNetWorth) + savings;
-            
-            //loop until my investments are more than my spending
-    while(interestIncome < spending)
-    {
-            //add savings and growth rate
-      netWorth += savings;
-            //growth rate is per month, not year, so 1/12
-      netWorth *= Math.pow(1.0 + rate, 1.0/12.0);
-      interestIncome = netWorth * (this.withdrawalRate / 100.0) / 12.0;
-      ++months;
-    }
-    
-            //gets years
-    return (months / 12.0).toFixed(1);
-  }
+    var netWorth       = $scope.currentNetWorth;
+    var earnRate       = $scope.expectedReturn / 100.0;
+    var spendRate      = $scope.withdrawalRate / 100.0;
 
+    //based on netWorth and withdrawal rate
+
+    //loop until my investments are more than my spending
+    // NOTE: We should deduce the math to determine months/nestEgg directly
+    if( savings > 0 || netWorth > 0)
+    {
+      while(spending > netWorth * (spendRate / 12.0))
+      {
+        //add savings and growth rate
+        netWorth += savings;
+
+        //growth rate is per month, not year, so 1/12
+        netWorth *= Math.pow(1.0 + earnRate, 1.0/12.0);
+        ++months;
+      }
+    }
+
+    nestEgg = netWorth;
+    yearsToRetire = (months / 12.0).toFixed(1);
+  };
+
+  Object.defineProperties($scope, {
+    "monthlyIncome" : {
+      get: function () { return monthlyIncome; },
+      set: function(i) { monthlyIncome = parseFloat(i); calculateRetirement(); }
+    },
+    "currentNetWorth" : {
+      get: function () { return currentNetWorth; },
+      set: function(i) { currentNetWorth = parseFloat(i); calculateRetirement(); }
+    },
+    "savingRate" : {
+      get: function () { return savingRate; },
+      set: function(i) { savingRate = parseFloat(i); calculateRetirement(); }
+    },
+    "expectedReturn" : {
+      get: function () { return expectedReturn; },
+      set: function(i) { expectedReturn = parseFloat(i); calculateRetirement(); }
+    },
+    "withdrawalRate" : {
+      get: function () { return withdrawalRate; },
+      set: function(i) { withdrawalRate = parseFloat(i); calculateRetirement(); }
+    },
+    "monthlySavings" : {get: function(){ return monthlyIncome * ( savingRate / 100.0 );} },
+    "monthlySpending" : { get: function(){ return monthlyIncome - this.monthlySavings; } },
+    "yearlySpending" : { get: function() { return this.monthlySpending * 12; } },
+    "nestEgg" : { get: function() { return nestEgg; } },
+    "yearsToRetire" : { get: function() { return yearsToRetire; } },
+    "retireDate" : {
+      get: function() {
+        var today = new Date();
+        return new Date(
+          today.getTime() + yearsToRetire * 365 * 24 * 60 * 60 * 1000);
+      }
+    }
+  });
+
+  calculateRetirement();
 });

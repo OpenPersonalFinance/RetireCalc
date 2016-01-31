@@ -1,5 +1,5 @@
 <div class="item range range-positive">
   <label>{{title | translate}}</label>
   <input type="range" ng-model="money" min="{{min}}" max="{{max}}"/>
-  <output>{{money | currency}}</output>
+  <output>{{money | currency:undefined:0}}</output>
 </div>
