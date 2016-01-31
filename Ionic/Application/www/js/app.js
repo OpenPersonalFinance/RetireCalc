@@ -57,6 +57,7 @@ angular.module('starter', ['ionic', 'pascalprecht.translate', 'components', 'sta
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/calculate');
 
+  $translateProvider.useSanitizeValueStrategy('escape');
   Translation.registerWithProvider( $translateProvider );
 
 });
