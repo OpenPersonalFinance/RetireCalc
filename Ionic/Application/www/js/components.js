@@ -13,7 +13,8 @@ angular.module('components', [])
         money: '=ngModel',
         min: '@min',
         max: '@max',
-        title: '@title'
+        title: '@title',
+        step: '@step'
       }
     };
   })
@@ -29,7 +30,8 @@ angular.module('components', [])
         interest: '=ngModel',
         min: '@min',
         max: '@max',
-        title: '@title'
+        title: '@title',
+        step: '@step'
       }
     };
   })
