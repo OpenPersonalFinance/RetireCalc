@@ -13,8 +13,8 @@ var Translation = {
       calculate_monthlySpending: "Monthly Spending",
       calculate_yearlySpending: "Yearly Spending",
       calculate_nestEgg: "Nest Egg",
-      calculate_retirementDate: "Retire on",
-      calculate_yearsToRetirement: "Retire in"
+      calculate_retirementDate: "Retirement Date",
+      calculate_yearsToRetirement: "Years To Retirement"
     },
 
     registerWithProvider: function(provider){
