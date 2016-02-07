@@ -3,7 +3,7 @@
 
     <ion-slide-box does-continue="true" auto-play="false">
       <ion-slide align="center">
-        <div >
+        <div>
           <h2>{{yearsToRetire | number}} years</h2>
           <p>{{'calculate_yearsToRetirement' | translate}}</p>
         </div>
@@ -31,7 +31,22 @@
         </div>
       </ion-slide>
        <ion-slide align="center">
-        <div><h2>GRAPH GOES HERE</h2></div>
+        <div>
+          <div class="card">
+            <div class="item item-divider">
+              Spending VS Investment Income
+            </div>
+            <div class="item item-text-wrap">
+              <canvas id="line" class="chart chart-line" chart-data="data" 
+                                                 chart-labels="labels" 
+                                                 chart-legend="true" 
+                                                 chart-series="series" 
+                                                 chart-options="{showTooltips: false}" 
+                                                 chart-colours="colours">
+              </canvas>
+            </div>
+          </div>
+         </div>
       </ion-slide>
     </ion-slide-box>
 
