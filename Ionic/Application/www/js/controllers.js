@@ -18,9 +18,9 @@ angular.module('starter.controllers', [])
 
     //the number of months I save/invest
     var months         = 0;
-    var netWorth       = $scope.currentNetWorth;
-    var earnRate       = $scope.expectedReturn / 100.0;
-    var spendRate      = $scope.withdrawalRate / 100.0;
+    var netWorth       = currentNetWorth;
+    var earnRate       = expectedReturn / 100.0;
+    var spendRate      = withdrawalRate / 100.0;
 
     //based on netWorth and withdrawal rate
 
@@ -31,13 +31,18 @@ angular.module('starter.controllers', [])
       while(spending > netWorth * (spendRate / 12.0))
       {
         //add savings and growth rate
-        netWorth += savings;
 
         //growth rate is per month, not year, so 1/12
-        netWorth *= Math.pow(1.0 + earnRate, 1.0/12.0);
+        netWorth *= Math.pow(1.0 + earnRate / 12, 1);
+        netWorth += savings;
+
         ++months;
       }
     }
+
+     var totalTest =
+       (currentNetWorth * Math.pow(1 + (earnRate / 12), months))
+       + (savings * ((Math.pow(1+earnRate/12, months) - 1) / (earnRate/12)));
 
     nestEgg = netWorth;
     yearsToRetire = (months / 12.0).toFixed(1);
