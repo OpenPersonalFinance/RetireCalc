@@ -1,1 +1,18 @@
 /* Empty. Add your own CSS if you like */
+.slider {
+  background: linear-gradient(#3399ff, white);
+}
+.slider-slide {
+    padding-top: 10px;
+    padding-bottom: 60px;
+}
+
+p {
+  color: #2255dd;
+  background-color: inherit;
+}
+
+h2 {
+  color: white;
+  background-color: inherit;
+}

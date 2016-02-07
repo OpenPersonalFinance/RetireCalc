@@ -1,15 +1,59 @@
-<ion-view view-title="Calculate">
-  <ion-content>
-    <div class="item range range-positive">
-      <label for="fader">Income</label>
-      <input
-        type="range"
-        name="income"
-        ng-model="income"
-        min="5000" max="250000"
-        id="fader"
-        oninput="outputUpdate(value)">
-      <output for="fader" >{{income | currency}}</output>
-    </div>
+<ion-view view-title="{{'calculate_viewTitle' | translate}}">
+  <ion-content scroll="true">
+
+    <ion-slide-box does-continue="true" auto-play="false">
+      <ion-slide align="center">
+        <div>
+          <h2>{{yearsToRetire | number}} years</h2>
+          <p>{{'calculate_yearsToRetirement' | translate}}</p>
+        </div>
+        <div>
+          <h2>{{nestEgg | currency:undefined:0}}</h2>
+          <p>{{'calculate_nestEgg' | translate}}</p>
+        </div>
+        <div>
+          <h2>{{retireDate | date}}</h2>
+          <p>{{'calculate_retirementDate' | translate}} </p>
+        </div>
+      </ion-slide>
+      <ion-slide align="center">
+        <div >
+          <h2>{{monthlySavings | currency:undefined:0}}</h2>
+          <p>{{'calculate_monthlySavings' | translate}}</p>
+        </div>
+        <div>
+          <h2>{{monthlySpending | currency:undefined:0}}</h2>
+          <p>{{'calculate_monthlySpending' | translate}}</p>
+        </div>
+        <div>
+          <h2>{{yearlySpending | currency:undefined:0}}</h2>
+          <p>{{'calculate_yearlySpending' | translate}}</p>
+        </div>
+      </ion-slide>
+       <ion-slide align="center">
+        <div>
+          <div class="card">
+            <div class="item item-divider">
+              Spending VS Investment Income
+            </div>
+            <div class="item item-text-wrap">
+              <canvas id="line" class="chart chart-line" chart-data="data" 
+                                                 chart-labels="labels" 
+                                                 chart-legend="true" 
+                                                 chart-series="series" 
+                                                 chart-options="{showTooltips: false}" 
+                                                 chart-colours="colours">
+              </canvas>
+            </div>
+          </div>
+         </div>
+      </ion-slide>
+    </ion-slide-box>
+
+    <div><opf-interest-slider ng-model="savingRate" title="calculate_savingRate" min="0" max="100"/></div>
+    <div><opf-money-slider ng-model="monthlyIncome" title="calculate_monthlyIncome" min="0" max="20000" step="100"/></div>
+    <div><opf-money-slider ng-model="currentNetWorth" title="calculate_currentNetWorth" min="0" max="1000000" step="100"/></div>
+    <div><opf-interest-slider ng-model="expectedReturn" title="calculate_expectedReturn" min="1" max="10"/></div>
+    <div><opf-interest-slider ng-model="withdrawalRate" title="calculate_withdrawalRate" min="3" max="5"/></div>
   </ion-content>
 </ion-view>
