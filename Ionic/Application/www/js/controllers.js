@@ -8,6 +8,24 @@ angular.module('starter.controllers', [])
   var withdrawalRate = 4;
   var nestEgg = 0;
   var yearsToRetire = 0;
+  
+  $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+  $scope.series = ['Spending', 'Income'];
+  $scope.data = [
+    [50, 50, 50, 50, 50, 50, 50],
+    [2, 4, 8, 16, 32, 64, 128]
+  ];
+  $scope.colours = [
+    {
+      fillColor: 'rgba(255, 0, 0, .1)',
+      strokeColor: 'Red',
+      
+    }, 
+    {
+      fillColor: 'rgba(0, 255, 0, .4)',
+      strokeColor: 'Green',
+    }
+  ];
 
   function calculateRetirement() {
 
@@ -15,12 +33,17 @@ angular.module('starter.controllers', [])
     var spending       = $scope.monthlySpending;
     var savings        = $scope.monthlySavings;
 
-
     //the number of months I save/invest
     var months         = 0;
-    var netWorth       = currentNetWorth;
-    var earnRate       = expectedReturn / 100.0;
-    var spendRate      = withdrawalRate / 100.0;
+    var netWorth       = $scope.currentNetWorth;
+    var earnRate       = $scope.expectedReturn / 100.0;
+    var spendRate      = $scope.withdrawalRate / 100.0;
+    
+    //clear graph data
+    $scope.labels = [];
+    $scope.data = [];
+    var graphSpendings = [];
+    var graphIncomes = [];
 
     //based on netWorth and withdrawal rate
 
@@ -28,10 +51,9 @@ angular.module('starter.controllers', [])
     // NOTE: We should deduce the math to determine months/nestEgg directly
     if( savings > 0 || netWorth > 0)
     {
-      while(spending > netWorth * (spendRate / 12.0))
+      while(spending > (netWorth * spendRate) / 12.0)
       {
         //add savings and growth rate
-
         //growth rate is per month, not year, so 1/12
         netWorth *= Math.pow(1.0 + earnRate / 12, 1);
         netWorth += savings;
@@ -46,6 +68,7 @@ angular.module('starter.controllers', [])
 
     nestEgg = netWorth;
     yearsToRetire = (months / 12.0).toFixed(1);
+    
   };
 
   Object.defineProperties($scope, {
