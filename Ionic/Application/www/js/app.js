@@ -52,6 +52,17 @@ angular.module('starter', ['ionic', 'pascalprecht.translate', 'components', 'sta
         controller: 'CalculateCtrl'
       }
     }
+  })
+  
+  .state('tab.info', {
+    url: '/info',
+    views: {
+      'tab-info': {
+        templateUrl: 'templates/tab-info.html',
+        controller: 'CalculateCtrl'
+      }
+      
+    }
   });
 
   // if none of the above states are matched, use this as the fallback

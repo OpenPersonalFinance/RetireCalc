@@ -1,14 +1,16 @@
 /* Empty. Add your own CSS if you like */
 .slider {
-  background: linear-gradient(#3399ff, white);
+  background: linear-gradient(#387ef5, white);
 }
 .slider-slide {
     padding-top: 10px;
     padding-bottom: 60px;
 }
-
+.bar-positive .title {
+  border: 0, 0;
+}
 p {
-  color: #2255dd;
+  color: #000;
   background-color: inherit;
 }
 

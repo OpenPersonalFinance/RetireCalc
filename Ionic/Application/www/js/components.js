@@ -35,3 +35,11 @@ angular.module('components', [])
       }
     };
   })
+
+.directive('opfGraph', function() {
+  return {
+    restrict: 'E',
+    replace: true,
+    templateUrl: 'templates/opf-graph.html'
+  };
+});

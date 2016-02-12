@@ -15,11 +15,11 @@ angular.module('starter.controllers', [])
   $scope.data   = []; //the values for each set
   //colors for each set, used British spelling because that is what the charts use
   $scope.colours = [{
-    fillColor: 'rgba(255, 0, 0, .1)',
+    fillColor:   'rgba(255, 0, 0, .1)',
     strokeColor: 'Red',
   }, 
   {
-    fillColor: 'rgba(0, 255, 0, .4)',
+    fillColor:   'rgba(0, 255, 0, .4)',
     strokeColor: 'Green',
   }
   ];
@@ -107,7 +107,7 @@ angular.module('starter.controllers', [])
     var savings          = $scope.monthlySavings;
     var netWorth         = $scope.currentNetWorth;
     var monthlyEarnRate  = ($scope.expectedReturn / 100.0)/ MONTHS_PER_YEAR;
-    var monthlyWithdrawl = ($scope.withdrawalRate / 100.0)/MONTHS_PER_YEAR;
+    var monthlyWithdrawl = ($scope.withdrawalRate / 100.0)/ MONTHS_PER_YEAR;
     var monthlyInterest  = netWorth * monthlyWithdrawl;
     
     
@@ -150,12 +150,6 @@ angular.module('starter.controllers', [])
     var totalYears = calculateTextFields();
     //Calculate graph based on years to retire
     calculateGraph(totalYears);
-        
-    
-    // var totalTest =
-    // (currentNetWorth * Math.pow(1 + (earnRate / 12), months))
-    // + (savings * ((Math.pow(1+earnRate/12, months) - 1) / (earnRate/12)));
-
   };
 
   Object.defineProperties($scope, {
