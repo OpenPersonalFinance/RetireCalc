@@ -16,3 +16,7 @@ h2 {
   color: white;
   background-color: inherit;
 }
+
+.years-to-retire h2{
+   font-size: 4em;
+}

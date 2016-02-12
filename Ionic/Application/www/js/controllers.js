@@ -11,7 +11,7 @@ angular.module('starter.controllers', [])
   
   
   $scope.labels = []; //names for x axis on graph
-  $scope.series = []; //Names for each of the colors
+  $scope.series = ['Spending', 'Invest Income']; //Names for each of the colors
   $scope.data   = []; //the values for each set
   //colors for each set, used British spelling because that is what the charts use
   $scope.colours = [{
@@ -30,6 +30,17 @@ angular.module('starter.controllers', [])
   //assumes either savings and networth data is valid
   ////////////////////////////////////////////////////////////////////////////
   function calculateGraph(yearsUntilRetirement){
+    var Constants = {
+      PHASE_VALUE_1:     60,
+      PHASE_STEP_1:       9,
+      PHASE_VALUE_2:     45,
+      PHASE_STEP_2:       7,
+      PHASE_VALUE_3:     30,
+      PHASE_STEP_3:       5,
+      PHASE_VALUE_4:     15,
+      PHASE_STEP_4:       3,
+      PHASE_STEP_DEFAULT: 1
+    };
     
     //clear graph data
     $scope.labels      = [];
@@ -44,23 +55,26 @@ angular.module('starter.controllers', [])
     var yearlyWithdrawl = $scope.withdrawalRate /100.0;
     var netWorth        = $scope.currentNetWorth; 
     var yearlyInterest  = netWorth * yearlyWithdrawl;
-    var steps           = 1;//the number of years between each verical bar in the graph
+    var steps           = 0;//the number of years between each verical bar in the graph
     
     //Change value of steps based on number of years to retire
     //This will make the graph look better
     //However there are a lot of magic numbers here
     //What is a good way to deal with this in Javascript???
-    if(yearsUntilRetirement > 50){
-      steps = 7;
+    if(yearsUntilRetirement > Constants.PHASE_VALUE_1){
+      steps = Constants.PHASE_STEP_1;
     }
-    else if(yearsUntilRetirement > 30){
-      steps = 5;
+    else if(yearsUntilRetirement > Constants.PHASE_VALUE_2){
+      steps = Constants.PHASE_STEP_2;
     }
-    else if(yearsUntilRetirement > 15){
-      steps = 3;
+    else if(yearsUntilRetirement > Constants.PHASE_VALUE_3){
+      steps = Constants.PHASE_STEP_3;
+    }
+    else if(yearsUntilRetirement > Constants.PHASE_VALUE_4){
+      steps = Constants.PHASE_STEP_4;
     }
     else{
-      steps = 1;
+      steps = Constants.PHASE_STEP_DEFAULT;
     }
     
       

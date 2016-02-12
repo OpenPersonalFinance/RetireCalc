@@ -3,15 +3,15 @@
 
     <ion-slide-box does-continue="true" auto-play="false">
       <ion-slide align="center">
-        <div>
+        <div class="years-to-retire">
           <h2>{{yearsToRetire | number}} years</h2>
           <p>{{'calculate_yearsToRetirement' | translate}}</p>
         </div>
-        <div>
+        <div class="nest-egg">
           <h2>{{nestEgg | currency:undefined:0}}</h2>
           <p>{{'calculate_nestEgg' | translate}}</p>
         </div>
-        <div>
+        <div class="retire-data">
           <h2>{{retireDate | date}}</h2>
           <p>{{'calculate_retirementDate' | translate}} </p>
         </div>
@@ -34,12 +34,12 @@
         <div>
           <div class="card">
             <div class="item item-divider">
-              Spending VS Investment Income
+              {{'calculate_chartTitle' | translate}}
             </div>
             <div class="item item-text-wrap">
               <canvas id="line" class="chart chart-line" chart-data="data" 
                                                  chart-labels="labels" 
-                                                 chart-legend="true" 
+                                                 chart-legend="false" 
                                                  chart-series="series" 
                                                  chart-options="{showTooltips: false}" 
                                                  chart-colours="colours">

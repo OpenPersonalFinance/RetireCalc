@@ -14,7 +14,8 @@ var Translation = {
       calculate_yearlySpending: "Yearly Spending",
       calculate_nestEgg: "Nest Egg",
       calculate_retirementDate: "Retirement Date",
-      calculate_yearsToRetirement: "Years To Retirement"
+      calculate_yearsToRetirement: "Years To Retirement",
+      calculate_chartTitle: "Yearly Spending vs Investing Income"
     },
 
     registerWithProvider: function(provider){
