@@ -64,12 +64,43 @@ angular.module('starter', ['ionic', 'pascalprecht.translate', 'components', 'sta
       
     }
   })
-  //child tab of info, only accesable through into
+  //child tab of info, only accesable through info
   .state('tab.withdrawal', {
     url: '/withdrawal',
     views: {
       'tab-info': {
         templateUrl: 'templates/tab-withdrawal.html',
+        controller: 'CalculateCtrl'
+
+      }
+    }
+  })
+  //child tab of info, only accesable through info
+  .state('tab.return', {
+    url: '/return',
+    views: {
+      'tab-info': {
+        templateUrl: 'templates/tab-return.html',
+        controller: 'CalculateCtrl'
+
+      }
+    }
+  })
+  //child tab of info, only accesable through info
+  .state('tab.about', {
+    url: '/about',
+    views: {
+      'tab-info': {
+        templateUrl: 'templates/tab-about.html'
+      }
+    }
+  })
+  //child tab of info, only accesable through info
+  .state('tab.details', {
+    url: '/details',
+    views: {
+      'tab-info': {
+        templateUrl: 'templates/tab-details.html',
         controller: 'CalculateCtrl'
 
       }
