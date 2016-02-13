@@ -69,7 +69,8 @@ angular.module('starter', ['ionic', 'pascalprecht.translate', 'components', 'sta
     url: '/withdrawal',
     views: {
       'tab-info': {
-        templateUrl: 'templates/tab-withdrawal.html'
+        templateUrl: 'templates/tab-withdrawal.html',
+        controller: 'CalculateCtrl'
 
       }
     }
