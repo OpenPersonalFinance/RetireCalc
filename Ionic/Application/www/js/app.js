@@ -65,11 +65,11 @@ angular.module('starter', ['ionic', 'pascalprecht.translate', 'components', 'sta
     }
   })
   //child tab of info, only accesable through into
-  .state('tab.withdrawl', {
-    url: '/withdrawl',
+  .state('tab.withdrawal', {
+    url: '/withdrawal',
     views: {
       'tab-info': {
-        templateUrl: 'templates/tab-withdrawl.html'
+        templateUrl: 'templates/tab-withdrawal.html'
 
       }
     }
