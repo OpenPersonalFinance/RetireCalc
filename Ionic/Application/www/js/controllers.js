@@ -9,12 +9,10 @@ angular.module('starter.controllers', [])
   var m_withdrawalRate  = 4;
   var m_nestEgg         = 0;
   var m_yearsToRetire   = 0;
+  var m_graphLabels     = []; //names for x axis on graph
+  var m_graphData       = []; //the values for each set
   
-  
-  $scope.labels       = []; //names for x axis on graph
-  $scope.data         = []; //the values for each set
-  //colors for each set, used British spelling because that is what the charts use
-  $scope.colours      = [{
+  $scope.colours    = [{
     fillColor:   'rgba(255, 0, 0, .1)',
     strokeColor: 'Red',
   }, 
@@ -71,8 +69,8 @@ angular.module('starter.controllers', [])
   //////////////////////////////////////////////////////////////////////////////
   function calculateGraph(yearsToRetire){
     //clear graph data
-    $scope.labels      = [];
-    $scope.data        = [];
+    m_graphLabels      = [];
+    m_graphData        = [];
 
     //used to populate $scope.data for the graph
     var graphSpendings = [];
@@ -95,13 +93,13 @@ angular.module('starter.controllers', [])
       yearlyInterest = netWorth * yearlyWithdrawl;
         
       if(i % steps === 0) {
-        $scope.labels.push("Year " + (i + 1).toString());
+        m_graphLabels.push("Year " + (i + 1).toString());
         graphSpendings.push(yearlySpending);
         graphIncomes.push(yearlyInterest);
       } 
     }
-    $scope.data.push(graphSpendings);
-    $scope.data.push(graphIncomes);
+    m_graphData.push(graphSpendings);
+    m_graphData.push(graphIncomes);
   }
   //////////////////////////////////////////////////////////////////////////////
   //Function to populate the text field data 
@@ -146,8 +144,8 @@ angular.module('starter.controllers', [])
       
       m_nestEgg       = 0;
       m_yearsToRetire = 0;
-      $scope.labels = ["Can't Retire!!!"];
-      $scope.data   = [[$scope.yearlySpending], [0]];
+      m_graphLabels = ["Can't Retire!!!"];
+      m_graphData   = [[$scope.yearlySpending], [0]];
       return;
     }
  
@@ -200,7 +198,14 @@ angular.module('starter.controllers', [])
         var today = new Date();
         return new Date(today.getTime() + m_yearsToRetire * 365 * 24 * 60 * 60 * 1000);
       }
+    },
+    "graphLabels" : {
+       get: function() {return m_graphLabels;}
+    },
+    "graphData" : {
+       get: function() {return m_graphData;}
     }
+    
   });//end define properties
 
   //We need to call this function so we calculate on start up
