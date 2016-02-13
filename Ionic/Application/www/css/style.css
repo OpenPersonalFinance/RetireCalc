@@ -1,14 +1,12 @@
 /* Empty. Add your own CSS if you like */
 .slider {
-  background: linear-gradient(#387ef5, white);
+  background: linear-gradient(#387ef5, 100%,  white);/*Maybe no gradient is better*/
 }
 .slider-slide {
     padding-top: 10px;
     padding-bottom: 60px;
 }
-.bar-positive .title {
-  border: 0, 0;
-}
+
 p {
   color: #000;
   background-color: inherit;
@@ -22,3 +20,14 @@ h2 {
 .years-to-retire h2{
    font-size: 4em;
 }
+
+.info-tab .button-full {
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+.info-tab h2 {
+  margin: 5px;
+  color: black;
+  background-color: inherit;
+}
+

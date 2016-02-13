@@ -36,14 +36,15 @@ angular.module('starter', ['ionic', 'pascalprecht.translate', 'components', 'sta
   $stateProvider
 
   // setup an abstract state for the tabs directive
-    .state('tab', {
+  .state('tab', {
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html'
   })
 
   // Each tab has its own nav history stack:
-
+  
+  //Calculate Parent Tab, uses slide box
   .state('tab.calculate', {
     url: '/calculate',
     views: {
@@ -53,15 +54,24 @@ angular.module('starter', ['ionic', 'pascalprecht.translate', 'components', 'sta
       }
     }
   })
-  
+  //Info Parent Tab, has child tabs within the view, but no global tab buttons
   .state('tab.info', {
     url: '/info',
     views: {
       'tab-info': {
-        templateUrl: 'templates/tab-info.html',
-        controller: 'CalculateCtrl'
+        templateUrl: 'templates/tab-info.html'
       }
       
+    }
+  })
+  //child tab of info, only accesable through into
+  .state('tab.withdrawl', {
+    url: '/withdrawl',
+    views: {
+      'tab-info': {
+        templateUrl: 'templates/tab-withdrawl.html'
+
+      }
     }
   });
 

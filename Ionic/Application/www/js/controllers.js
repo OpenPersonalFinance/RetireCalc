@@ -1,28 +1,26 @@
 angular.module('starter.controllers', [])
 
 .controller('CalculateCtrl', function($scope) {
-  var monthlyIncome = 5000;
+  var monthlyIncome   = 5000;
   var currentNetWorth = 10000;
-  var savingRate = 15;
-  var expectedReturn = 5;
-  var withdrawalRate = 4;
-  var nestEgg = 0;
-  var yearsToRetire = 0;
+  var savingRate      = 15;
+  var expectedReturn  = 5;
+  var withdrawalRate  = 4;
+  var nestEgg         = 0;
+  var yearsToRetire   = 0;
   
   
-  $scope.labels = []; //names for x axis on graph
-  $scope.series = ['Spending', 'Invest Income']; //Names for each of the colors
-  $scope.data   = []; //the values for each set
+  $scope.labels       = []; //names for x axis on graph
+  $scope.data         = []; //the values for each set
   //colors for each set, used British spelling because that is what the charts use
-  $scope.colours = [{
+  $scope.colours      = [{
     fillColor:   'rgba(255, 0, 0, .1)',
     strokeColor: 'Red',
   }, 
   {
     fillColor:   'rgba(0, 255, 0, .4)',
     strokeColor: 'Green',
-  }
-  ];
+  }];
 
   ////////////////////////////////////////////////////////////////////////////
   //Calculates the graph data given a number of years to retire. 
@@ -32,12 +30,12 @@ angular.module('starter.controllers', [])
   function calculateGraph(yearsUntilRetirement){
     var Constants = {
       PHASE_VALUE_1:     60,
-      PHASE_STEP_1:       9,
       PHASE_VALUE_2:     45,
-      PHASE_STEP_2:       7,
       PHASE_VALUE_3:     30,
-      PHASE_STEP_3:       5,
       PHASE_VALUE_4:     15,
+      PHASE_STEP_1:       9,
+      PHASE_STEP_2:       7,
+      PHASE_STEP_3:       5,
       PHASE_STEP_4:       3,
       PHASE_STEP_DEFAULT: 1
     };
@@ -59,8 +57,6 @@ angular.module('starter.controllers', [])
     
     //Change value of steps based on number of years to retire
     //This will make the graph look better
-    //However there are a lot of magic numbers here
-    //What is a good way to deal with this in Javascript???
     if(yearsUntilRetirement > Constants.PHASE_VALUE_1){
       steps = Constants.PHASE_STEP_1;
     }
@@ -117,18 +113,14 @@ angular.module('starter.controllers', [])
       
     //loop until my investments are more than my spending
     while(spending > monthlyInterest) {
-      //first add last months interest
-      netWorth *= 1.0 + monthlyEarnRate;
-      //then add this months contributions
-      netWorth += savings;
-      //how much investment income can I now get?
-      monthlyInterest = netWorth * monthlyWithdrawl;
-      //updates months so I know how many years it will take
-      ++totalMonths;
+      netWorth       *= 1.0 + monthlyEarnRate;      //first add last months interest
+      netWorth       += savings;                    //then add this months contributions
+      monthlyInterest = netWorth * monthlyWithdrawl;//calculate withdrawl % of networth
+      ++totalMonths;                               //updates months so I know can know years
     }
       
     //now I have my total nest egg
-    nestEgg = netWorth;
+    nestEgg       = netWorth;
     yearsToRetire = (totalMonths / MONTHS_PER_YEAR).toFixed(1);
     
     return (totalMonths / MONTHS_PER_YEAR);
@@ -171,7 +163,7 @@ angular.module('starter.controllers', [])
     },
     "withdrawalRate" : {
       get: function () { return withdrawalRate; },
-      set: function(i) { withdrawalRate = parseFloat(i); calculateRetirement(); }
+      set: function(i) { withdrawalRate = parseFloat(i); calculateRetirement();}
     },
     "monthlySavings" : {get: function(){ return monthlyIncome * ( savingRate / 100.0 );} },
     "monthlySpending" : { get: function(){ return monthlyIncome - this.monthlySavings; } },
