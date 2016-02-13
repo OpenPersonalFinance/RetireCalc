@@ -1,13 +1,14 @@
 angular.module('starter.controllers', [])
 
 .controller('CalculateCtrl', function($scope) {
-  var monthlyIncome   = 5000;
-  var currentNetWorth = 10000;
-  var savingRate      = 15;
-  var expectedReturn  = 5;
-  var withdrawalRate  = 4;
-  var nestEgg         = 0;
-  var yearsToRetire   = 0;
+  var MONTHS_PER_YEAR   = 12;
+  var m_monthlyIncome   = 5000;
+  var m_currNetWorth    = 10000;
+  var m_savingRate      = 15;
+  var m_returnRate      = 5;
+  var m_withdrawalRate  = 4;
+  var m_nestEgg         = 0;
+  var m_yearsToRetire   = 0;
   
   
   $scope.labels       = []; //names for x axis on graph
@@ -21,14 +22,14 @@ angular.module('starter.controllers', [])
     fillColor:   'rgba(0, 255, 0, .4)',
     strokeColor: 'Green',
   }];
-
-  ////////////////////////////////////////////////////////////////////////////
-  //Calculates the graph data given a number of years to retire. 
-  //This function is called in calculate retirement 
-  //assumes either savings and networth data is valid
-  ////////////////////////////////////////////////////////////////////////////
-  function calculateGraph(yearsUntilRetirement){
-    var Constants = {
+  
+  //////////////////////////////////////////////////////////////////////////////
+  //Function to calculate the number of verticle steps for the graph.  If there
+  //are two may steps in looks messy I adjust the steps every 15 years.
+  //takes the number of years to retire and returns the steps in the grapsh
+  //////////////////////////////////////////////////////////////////////////////
+  function getGraphSteps(yearsToRetire){
+     var Constants = {
       PHASE_VALUE_1:     60,
       PHASE_VALUE_2:     45,
       PHASE_VALUE_3:     30,
@@ -39,44 +40,55 @@ angular.module('starter.controllers', [])
       PHASE_STEP_4:       3,
       PHASE_STEP_DEFAULT: 1
     };
-    
-    //clear graph data
-    $scope.labels      = [];
-    $scope.data        = [];
-    var graphSpendings = [];
-    var graphIncomes   = [];
-      
-    var MONTHS_PER_YEAR = 12;
-    var yearlySpending  = $scope.monthlySpending * MONTHS_PER_YEAR;
-    var yearlySavings   = $scope.monthlySavings  * MONTHS_PER_YEAR;
-    var yearlyEarnRate  = $scope.expectedReturn / 100.0;
-    var yearlyWithdrawl = $scope.withdrawalRate /100.0;
-    var netWorth        = $scope.currentNetWorth; 
-    var yearlyInterest  = netWorth * yearlyWithdrawl;
-    var steps           = 0;//the number of years between each verical bar in the graph
+    var steps = 0;
     
     //Change value of steps based on number of years to retire
     //This will make the graph look better
-    if(yearsUntilRetirement > Constants.PHASE_VALUE_1){
+    if(yearsToRetire > Constants.PHASE_VALUE_1){
       steps = Constants.PHASE_STEP_1;
     }
-    else if(yearsUntilRetirement > Constants.PHASE_VALUE_2){
+    else if(yearsToRetire > Constants.PHASE_VALUE_2){
       steps = Constants.PHASE_STEP_2;
     }
-    else if(yearsUntilRetirement > Constants.PHASE_VALUE_3){
+    else if(yearsToRetire > Constants.PHASE_VALUE_3){
       steps = Constants.PHASE_STEP_3;
     }
-    else if(yearsUntilRetirement > Constants.PHASE_VALUE_4){
+    else if(yearsToRetire > Constants.PHASE_VALUE_4){
       steps = Constants.PHASE_STEP_4;
     }
     else{
       steps = Constants.PHASE_STEP_DEFAULT;
     }
     
-      
+    return steps;
+  }
+  
+  //////////////////////////////////////////////////////////////////////////////
+  //Calculates the graph data given a number of years to retire. 
+  //This function is called in calculateRetirement() 
+  //assumes either savings or networth data is greater than zero.  Those values 
+  //are tested in calculateRetirement() 
+  //////////////////////////////////////////////////////////////////////////////
+  function calculateGraph(yearsToRetire){
+    //clear graph data
+    $scope.labels      = [];
+    $scope.data        = [];
+
+    //used to populate $scope.data for the graph
+    var graphSpendings = [];
+    var graphIncomes   = [];
     
-    //now that we have year, lets calculate graph data
-    for(var i = 0; i < yearsUntilRetirement + (2 * steps); ++i)
+    var yearlySpending  = $scope.yearlySpending;
+    var yearlySavings   = $scope.monthlySavings  * MONTHS_PER_YEAR;
+    var yearlyEarnRate  = $scope.expectedReturn / 100.0;
+    var yearlyWithdrawl = $scope.withdrawalRate /100.0;
+    var netWorth        = $scope.currentNetWorth; 
+    var yearlyInterest  = netWorth * yearlyWithdrawl;
+    var steps           = getGraphSteps(yearsToRetire);
+    
+   
+    //now that we have years, lets calculate graph data
+    for(var i = 0; i < yearsToRetire + (2 * steps); ++i)
     {
       netWorth *= 1 + yearlyEarnRate;
       netWorth += yearlySavings;
@@ -91,13 +103,13 @@ angular.module('starter.controllers', [])
     $scope.data.push(graphSpendings);
     $scope.data.push(graphIncomes);
   }
-  ////////////////////////////////////////////////////////////////////////////
-  //Function to populate the text field data
-  //returns number of years to retire which gets passed to calculate graph function
-  //assumes either savings and networth data is valid
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //Function to populate the text field data 
+  //returns number of years to retire which gets passed to calculateGraph()
+  //assumes either savings or networth data is greater than zero.  Those values 
+  //are tested in calculateRetirement() 
+  //////////////////////////////////////////////////////////////////////////////
   function calculateTextFields(){
-    var MONTHS_PER_YEAR  = 12.0;
     var totalMonths      = 0;  //the number of months I save/invest
     var spending         = $scope.monthlySpending;  
     var savings          = $scope.monthlySavings;
@@ -116,24 +128,24 @@ angular.module('starter.controllers', [])
       netWorth       *= 1.0 + monthlyEarnRate;      //first add last months interest
       netWorth       += savings;                    //then add this months contributions
       monthlyInterest = netWorth * monthlyWithdrawl;//calculate withdrawl % of networth
-      ++totalMonths;                               //updates months so I know can know years
+      ++totalMonths;                                //updates months so I know can know years
     }
       
     //now I have my total nest egg
-    nestEgg       = netWorth;
-    yearsToRetire = (totalMonths / MONTHS_PER_YEAR).toFixed(1);
+    m_nestEgg       = netWorth;
+    m_yearsToRetire = (totalMonths / MONTHS_PER_YEAR).toFixed(1);
     
     return (totalMonths / MONTHS_PER_YEAR);
-    
   }
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   //Function to calculate text fields and graph data based on slider input
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   function calculateRetirement() {
+    //if we aren't saving and don't have any money we can never retire
     if($scope.monthlySavings === 0 && $scope.currentNetWorth === 0){
-      //can't retire at all, what should we do here?
-      nestEgg       = 0;
-      yearsToRetire = 0;
+      
+      m_nestEgg       = 0;
+      m_yearsToRetire = 0;
       $scope.labels = ["Can't Retire!!!"];
       $scope.data   = [[$scope.yearlySpending], [0]];
       return;
@@ -144,40 +156,54 @@ angular.module('starter.controllers', [])
     calculateGraph(totalYears);
   };
 
+  //////////////////////////////////////////////////////////////////////////////
+  //Property funcitons for our internal data.  
+  //////////////////////////////////////////////////////////////////////////////
   Object.defineProperties($scope, {
     "monthlyIncome" : {
-      get: function () { return monthlyIncome; },
-      set: function(i) { monthlyIncome = parseFloat(i); calculateRetirement(); }
+      get: function () { return m_monthlyIncome; },
+      set: function(i) { m_monthlyIncome = parseFloat(i); calculateRetirement(); }
     },
     "currentNetWorth" : {
-      get: function () { return currentNetWorth; },
-      set: function(i) { currentNetWorth = parseFloat(i); calculateRetirement(); }
+      get: function () { return m_currNetWorth; },
+      set: function(i) { m_currNetWorth = parseFloat(i); calculateRetirement(); }
     },
     "savingRate" : {
-      get: function () { return savingRate; },
-      set: function(i) { savingRate = parseFloat(i); calculateRetirement(); }
+      get: function () { return m_savingRate; },
+      set: function(i) { m_savingRate = parseFloat(i); calculateRetirement(); }
     },
     "expectedReturn" : {
-      get: function () { return expectedReturn; },
-      set: function(i) { expectedReturn = parseFloat(i); calculateRetirement(); }
+      get: function () { return m_returnRate; },
+      set: function(i) { m_returnRate = parseFloat(i); calculateRetirement(); }
     },
     "withdrawalRate" : {
-      get: function () { return withdrawalRate; },
-      set: function(i) { withdrawalRate = parseFloat(i); calculateRetirement();}
+      get: function () { return m_withdrawalRate; },
+      set: function(i) { m_withdrawalRate = parseFloat(i); calculateRetirement();}
     },
-    "monthlySavings" : {get: function(){ return monthlyIncome * ( savingRate / 100.0 );} },
-    "monthlySpending" : { get: function(){ return monthlyIncome - this.monthlySavings; } },
-    "yearlySpending" : { get: function() { return this.monthlySpending * 12; } },
-    "nestEgg" : { get: function() { return nestEgg; } },
-    "yearsToRetire" : { get: function() { return yearsToRetire; } },
+    "monthlySavings" : {
+      get: function(){ return m_monthlyIncome * ( m_savingRate / 100.0 );} 
+    },
+    "monthlySpending" : { 
+      get: function(){ return m_monthlyIncome - this.monthlySavings; } 
+    },
+    "yearlySpending" : { 
+      get: function() { return this.monthlySpending * MONTHS_PER_YEAR; } 
+    },
+    "nestEgg" : { 
+      get: function() { return m_nestEgg; } 
+    },
+    "yearsToRetire" : { 
+      get: function() { return m_yearsToRetire; } 
+    },
     "retireDate" : {
       get: function() {
         var today = new Date();
-        return new Date(
-          today.getTime() + yearsToRetire * 365 * 24 * 60 * 60 * 1000);
+        return new Date(today.getTime() + m_yearsToRetire * 365 * 24 * 60 * 60 * 1000);
       }
     }
-  });
+  });//end define properties
 
+  //We need to call this function so we calculate on start up
   calculateRetirement();
+  
 });
