@@ -1,6 +1,6 @@
 /* Empty. Add your own CSS if you like */
 .slider {
-  background: linear-gradient(#387ef5, 100%,  white);/*Maybe no gradient is better*/
+  background-color: #387ef5;
 }
 .slider-slide {
     padding-top: 10px;
