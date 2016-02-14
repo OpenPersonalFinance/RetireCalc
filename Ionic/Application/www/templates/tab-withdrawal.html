@@ -1,13 +1,23 @@
-<ion-view view-title="Withdrawal %">
+<ion-view view-title="{{'withdrawal_viewTitle' | translate}}">
    <ion-nav-buttons>
       <button href="#/tab/info" class="button"></button>
     </ion-nav-buttons>
-  <ion-content scroll="false">
-    <p>Info about Withdrawal rate</p>
-    <p>Info about Withdrawal rate</p>
-    <p>Info about Withdrawal rate</p>
-    <p>Info about Withdrawal rate</p>
-    <div><opf-interest-slider ng-model="withdrawalRate" title="calculate_withdrawalRate" min="2" max="6"/></div>
+  <ion-content scroll="true">
+    <div class="explanation">
+      <p>Withdrawal rate is the percentage of your networth you plan to use each year after retirement to meet your spending needs.  </p>
+    
+      <p>For Example, if you spend $40,000 a year and you have a withdrawal rate of 4%, then you would need a networth of $1,000,000 to meet spending needs.  If you want withdrawal 3% of you networth to meet your needed $40,000 then you would need a larger networth of $1,333,333.</p>
+    
+      <p>Choosing a different rate can change how much you need to save for retirement.</p>
+      <p>$40,000 / 3% = $1,333,333</p>
+      <p>$40,000 / 4% = $1,000,000</p>
+      <p>$40,000 / 5% = $800,000</p>
+    
+      <p>Based on the Trinity Study, a withdrawal rate of 4% gives a retiree a 96% chance of having enough money for a 30 year retirement.  In fact in many of the experiments the retiree not only had enough money for 30 years, the money actually grew such that that they had enough money a much longer retirement.</p>
+      <p>A withdrawal rate of 4% is used as a rule of thumb for many finacial advisors and is often called the "4% rule" or the "4% Safe Withdrawal Rate".  Of course it isn't perfect.  There are some problems with the 4% rule and many assumptions that went into the Trinity Study.</p>
+      <p>If you are curious, we encourage you to research more.</p>
+    </div>
+    <div><opf-interest-slider ng-model="withdrawalRate" title="withdrawal_withdrawalSlider" min="2" max="6"/></div>
     
   </ion-content>
 </ion-view>
