@@ -22,7 +22,17 @@ var Translation = {
       info_assumptionsTitle:       "Assumptions",
       info_aboutTitle:             "About",
       about_viewTitle:             "Open Personal Finance",
-      details_viewTitle:           "Details"
+      
+      withdrawal_p1:               "Withdrawal rate is the percentage of your networth you plan to use each year after retirement to meet your spending needs.",
+      withdrawal_p2:               "For Example, if you spend $40,000 a year and you have a withdrawal rate of 4%, then you would need a networth of $1,000,000 to meet spending needs.  If you want withdrawal 3% of you networth to meet your needed $40,000 then you would need a larger networth of $1,333,333.",
+      withdrawal_p3:               "Choosing a different rate can change how much you need to save for retirement.",
+      withdrawal_p4:               "$40,000 / 3% = $1,333,333",
+      withdrawal_p5:               "$40,000 / 4% = $1,000,000",
+      withdrawal_p6:               "$40,000 / 5% = $800,000",
+      withdrawal_p7:               "Based on the Trinity Study, a withdrawal rate of 4% gives a retiree a 96% chance of having enough money for a 30 year retirement.  In fact in many of the experiments the retiree not only had enough money for 30 years, the money actually grew such that that they had enough money a much longer retirement.",
+      withdrawal_p8:               "Even though some people have raised concerns about the assumtions that went into the Trinity Study, a withdrawal rate of 4% is still used as a rule of thumb for many finacial advisors and is often called the '4% rule' or the '4% Safe Withdrawal Rate'.",
+      withdrawal_p9:               "If you are curious about the conerns or assumptions, we encourage you to reseach on your own."
+      
       
     },
 
