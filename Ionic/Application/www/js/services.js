@@ -1,10 +1,21 @@
 angular.module('starter.services', [])
 
 
+//////////////////////////////////////////////////////////////////////////////
 //This factory service allows us to share data between controllers
 //which means we can share data between pages.  For now we only need one 
 //Controller.  We could probably clean it up but maybe it isn't a big deal right now.
+//////////////////////////////////////////////////////////////////////////////
 .factory('SharedData', function(){
+  //The starting values used if the file load fails
+  var StartValues = {
+    NET_WORTH:  10000,
+    INCOME:     15000,
+    WITHDRAWAL: 4,
+    SAVINGS:    15,
+    RETURN:     5
+  };
+  
   sharedData = {};
   sharedData.m_withdrawalRate  = 4;
   sharedData.MONTHS_PER_YEAR   = 12;
