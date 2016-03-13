@@ -1,13 +1,13 @@
 <ion-view view-title="{{'return_viewTitle' | translate}}">
    <ion-nav-buttons>
       <button href="#/tab/info" class="button"></button>
-    </ion-nav-buttons>
+  </ion-nav-buttons>
   <ion-content scroll="true">
-    <p>Over the last 100 years the average return of the stock market has been around 11%, before expenses such as taxes, investment fees and inflation.  This is known as the nominal return. After you have adjusted for these expenses you are left with your real return</p>
-    <p>On average inflation has been around 3% per year.  So you can do a quick calculation by subtracting inflation from the nominal return to get an expected return of 7%.  This isn't the actual formula to account for inflation, but it is close enough for our purpose.</p>
-    <p>There is no guarentee that the next 100 years will be anything like the last 100. Past performance does not predict future results.  However, this is the best information available.</p>
-    <p>We have chosen a conservative return 5%.  Feel free to be more or less conservative in your estimate.</p>
-     <div><opf-interest-slider ng-model="expectedReturn" title='return_returnSlider' min="1" max="10"/></div>
+    <p>{{'return_p1' | translate}}</p>
+    <p>{{'return_p2' | translate}}</p>
+    <p>{{'return_p3' | translate}}</p>
+    <p>{{'return_p4' | translate}}</p>
+    <div><opf-interest-slider ng-model="expectedReturn" title='return_returnSlider' min="1" max="10"/></div>
     
   </ion-content>
 </ion-view>
