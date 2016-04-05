@@ -94,17 +94,6 @@ angular.module('starter', ['ionic', 'pascalprecht.translate', 'components', 'sta
         templateUrl: 'templates/tab-about.html'
       }
     }
-  })
-  //child tab of info, only accesable through info
-  .state('tab.details', {
-    url: '/details',
-    views: {
-      'tab-info': {
-        templateUrl: 'templates/tab-details.html',
-        controller: 'CalculateCtrl'
-
-      }
-    }
   });
 
   // if none of the above states are matched, use this as the fallback
