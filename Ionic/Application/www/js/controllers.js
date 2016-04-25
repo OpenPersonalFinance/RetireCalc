@@ -1,183 +1,219 @@
 angular.module('starter.controllers', [])
-
-.controller('CalculateCtrl', function($scope) {
-  var monthlyIncome = 5000;
-  var currentNetWorth = 10000;
-  var savingRate = 15;
-  var expectedReturn = 5;
-  var withdrawalRate = 4;
-  var nestEgg = 0;
-  var yearsToRetire = 0;
+  .controller('CalculateCtrl', function ($scope, $ionicLoading, SharedData) {
   
+  //get data from my shared factory service
+  $scope.sharedData = SharedData;
   
-  $scope.labels = []; //names for x axis on graph
-  $scope.series = []; //Names for each of the colors
-  $scope.data   = []; //the values for each set
-  //colors for each set, used British spelling because that is what the charts use
-  $scope.colours = [{
-    fillColor: 'rgba(255, 0, 0, .1)',
-    strokeColor: 'Red',
-  }, 
-  {
-    fillColor: 'rgba(0, 255, 0, .4)',
-    strokeColor: 'Green',
-  }
-  ];
-
-  ////////////////////////////////////////////////////////////////////////////
-  //Calculates the graph data given a number of years to retire. 
-  //This function is called in calculate retirement 
-  //assumes either savings and networth data is valid
-  ////////////////////////////////////////////////////////////////////////////
-  function calculateGraph(yearsUntilRetirement){
-    
-    //clear graph data
-    $scope.labels      = [];
-    $scope.data        = [];
-    var graphSpendings = [];
-    var graphIncomes   = [];
-      
-    var MONTHS_PER_YEAR = 12;
-    var yearlySpending  = $scope.monthlySpending * MONTHS_PER_YEAR;
-    var yearlySavings   = $scope.monthlySavings  * MONTHS_PER_YEAR;
-    var yearlyEarnRate  = $scope.expectedReturn / 100.0;
-    var yearlyWithdrawl = $scope.withdrawalRate /100.0;
-    var netWorth        = $scope.currentNetWorth; 
-    var yearlyInterest  = netWorth * yearlyWithdrawl;
-    var steps           = 1;//the number of years between each verical bar in the graph
-    
-    //Change value of steps based on number of years to retire
-    //This will make the graph look better
-    //However there are a lot of magic numbers here
-    //What is a good way to deal with this in Javascript???
-    if(yearsUntilRetirement > 50){
-      steps = 7;
-    }
-    else if(yearsUntilRetirement > 30){
-      steps = 5;
-    }
-    else if(yearsUntilRetirement > 15){
-      steps = 3;
-    }
-    else{
-      steps = 1;
-    }
-    
-      
-    
-    //now that we have year, lets calculate graph data
-    for(var i = 0; i < yearsUntilRetirement + (2 * steps); ++i)
-    {
-      netWorth *= 1 + yearlyEarnRate;
-      netWorth += yearlySavings;
-      yearlyInterest = netWorth * yearlyWithdrawl;
-        
-      if(i % steps === 0) {
-        $scope.labels.push("Year " + (i + 1).toString());
-        graphSpendings.push(yearlySpending);
-        graphIncomes.push(yearlyInterest);
-      } 
-    }
-    $scope.data.push(graphSpendings);
-    $scope.data.push(graphIncomes);
-  }
-  ////////////////////////////////////////////////////////////////////////////
-  //Function to populate the text field data
-  //returns number of years to retire which gets passed to calculate graph function
-  //assumes either savings and networth data is valid
-  ////////////////////////////////////////////////////////////////////////////
-  function calculateTextFields(){
-    var MONTHS_PER_YEAR  = 12.0;
-    var totalMonths      = 0;  //the number of months I save/invest
-    var spending         = $scope.monthlySpending;  
-    var savings          = $scope.monthlySavings;
-    var netWorth         = $scope.currentNetWorth;
-    var monthlyEarnRate  = ($scope.expectedReturn / 100.0)/ MONTHS_PER_YEAR;
-    var monthlyWithdrawl = ($scope.withdrawalRate / 100.0)/MONTHS_PER_YEAR;
-    var monthlyInterest  = netWorth * monthlyWithdrawl;
-    
-    
-    // NOTE: We could deduce the math to determine months/nestEgg directly
-    // but our nest egg will always be 25 times annual spending
-      
-      
-    //loop until my investments are more than my spending
-    while(spending > monthlyInterest) {
-      //first add last months interest
-      netWorth *= 1.0 + monthlyEarnRate;
-      //then add this months contributions
-      netWorth += savings;
-      //how much investment income can I now get?
-      monthlyInterest = netWorth * monthlyWithdrawl;
-      //updates months so I know how many years it will take
-      ++totalMonths;
-    }
-      
-    //now I have my total nest egg
-    nestEgg = netWorth;
-    yearsToRetire = (totalMonths / MONTHS_PER_YEAR).toFixed(1);
-    
-    return (totalMonths / MONTHS_PER_YEAR);
-    
-  }
-  ////////////////////////////////////////////////////////////////////////////
-  //Function to calculate text fields and graph data based on slider input
-  ////////////////////////////////////////////////////////////////////////////
-  function calculateRetirement() {
-    if($scope.monthlySavings === 0 && $scope.currentNetWorth === 0){
-      //can't retire at all, what should we do here?
-      nestEgg       = 0;
-      yearsToRetire = 0;
-      $scope.labels = ["Can't Retire!!!"];
-      $scope.data   = [[$scope.yearlySpending], [0]];
-      return;
-    }
- 
-    var totalYears = calculateTextFields();
-    //Calculate graph based on years to retire
-    calculateGraph(totalYears);
-        
-    
-    // var totalTest =
-    // (currentNetWorth * Math.pow(1 + (earnRate / 12), months))
-    // + (savings * ((Math.pow(1+earnRate/12, months) - 1) / (earnRate/12)));
-
-  };
-
+  //////////////////////////////////////////////////////////////////////////////
+  //Property funcitons to get access to the shared data 
+  //////////////////////////////////////////////////////////////////////////////
   Object.defineProperties($scope, {
     "monthlyIncome" : {
-      get: function () { return monthlyIncome; },
-      set: function(i) { monthlyIncome = parseFloat(i); calculateRetirement(); }
+      get: function () { return this.sharedData.monthlyIncome; },
+      set: function (i) { this.sharedData.monthlyIncome = parseFloat(i); }
     },
     "currentNetWorth" : {
-      get: function () { return currentNetWorth; },
-      set: function(i) { currentNetWorth = parseFloat(i); calculateRetirement(); }
+      get: function () { return this.sharedData.currentNetWorth; },
+      set: function (i) { this.sharedData.currentNetWorth = parseFloat(i); }
     },
     "savingRate" : {
-      get: function () { return savingRate; },
-      set: function(i) { savingRate = parseFloat(i); calculateRetirement(); }
+      get: function () { return this.sharedData.savingRate; },
+      set: function (i) { this.sharedData.savingRate = parseFloat(i); }
     },
     "expectedReturn" : {
-      get: function () { return expectedReturn; },
-      set: function(i) { expectedReturn = parseFloat(i); calculateRetirement(); }
+      get: function () { return this.sharedData.expectedReturn; },
+      set: function (i) { this.sharedData.expectedReturn = parseFloat(i); }
     },
     "withdrawalRate" : {
-      get: function () { return withdrawalRate; },
-      set: function(i) { withdrawalRate = parseFloat(i); calculateRetirement(); }
+      get: function () { return this.sharedData.withdrawalRate; },
+      set: function (i) { this.sharedData.withdrawalRate = parseFloat(i); }
     },
-    "monthlySavings" : {get: function(){ return monthlyIncome * ( savingRate / 100.0 );} },
-    "monthlySpending" : { get: function(){ return monthlyIncome - this.monthlySavings; } },
-    "yearlySpending" : { get: function() { return this.monthlySpending * 12; } },
-    "nestEgg" : { get: function() { return nestEgg; } },
-    "yearsToRetire" : { get: function() { return yearsToRetire; } },
+    "monthlySavings" : {
+      get: function () { return this.sharedData.monthlySavings; } 
+    },
+    "monthlySpending" : { 
+      get: function () { return this.sharedData.monthlySpending; } 
+    },
+    "yearlySpending" : { 
+      get: function() { return this.sharedData.yearlySpending; } 
+    },
+    "nestEgg" : { 
+      get: function() { return this.sharedData.nestEgg; },
+      set: function(i) {this.sharedData.nestEgg = i;}
+    },
+    "yearsToRetire" : { 
+      get: function() { return this.sharedData.yearsToRetire; },
+      set: function(i) {this.sharedData.yearsToRetire = i;}
+    },
     "retireDate" : {
-      get: function() {
-        var today = new Date();
-        return new Date(
-          today.getTime() + yearsToRetire * 365 * 24 * 60 * 60 * 1000);
-      }
+      get: function() {return this.sharedData.retireDate;}
+    },
+    "graphLabels" : {
+      get: function() {return this.sharedData.graphLabels;},
+      set: function(i) {this.sharedData.graphLabels = i;}
+    },
+    "graphData" : {
+      get: function() {return this.sharedData.graphData;},
+      set: function(i) {this.sharedData.graphData = i;}
+    },
+    "graphColours" : {
+      get: function() {return this.sharedData.graphColours}
     }
-  });
+    
+  });//end define properties
 
-  calculateRetirement();
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //Load and Save helper funtions
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  
+  
+  
+  //////////////////////////////////////////////////////////////////////////////
+  //getFile errorhandler
+  //////////////////////////////////////////////////////////////////////////////
+  function GetFileError(error){
+    $ionicLoading.hide();
+    console.log("Request for file failed");
+  }
+  //////////////////////////////////////////////////////////////////////////////
+  //requestFileSystem errorhandler
+  //////////////////////////////////////////////////////////////////////////////
+  function GetFileSystemError(error){
+    $ionicLoading.hide();
+    console.log("Request for filesystem failed");
+  }
+  //////////////////////////////////////////////////////////////////////////////
+  //error handler for reader/writer
+  //////////////////////////////////////////////////////////////////////////////
+  function GetReaderWriterError(error){
+    $ionicLoading.hide();
+    console.log("Could not Read/Write File");
+  }
+  //////////////////////////////////////////////////////////////////////////////
+  //After a successful call to getfile in load
+  //////////////////////////////////////////////////////////////////////////////
+  function GotFileEntryLoad(fe){
+    // Get a File object representing the file then use FileReader to read its contents.
+    fe.file(function(file) {
+      //create our reader
+      var reader = new FileReader();
+      
+      //Set what happens when the file is loaded
+      reader.onloadend = function(e) {
+        var myArray = this.result.split(",");
+        $scope.monthlyIncome    = myArray[0];
+        $scope.currentNetWorth  = myArray[1];
+        $scope.savingRate       = myArray[2];
+        $scope.withdrawalRate   = myArray[3];
+        $scope.expectedReturn   = myArray[4];
+        $ionicLoading.hide();
+      };
+      
+      reader.onerror = function(e){
+        $ionicLoading.hide();
+      };
+      
+      //read the file
+      reader.readAsText(file);
+    }, GetReaderWriterError);
+  }
+  //////////////////////////////////////////////////////////////////////////////
+  //After a successful call to getDirectory in load
+  //////////////////////////////////////////////////////////////////////////////
+  function GotDirectoryLoad(dirEntry){
+    dirEntry.getFile("retireData.txt", {create: false, exclusive: false}, 
+                     GotFileEntryLoad, //on success 
+                     GetFileError);    //on failure
+  }
+  //////////////////////////////////////////////////////////////////////////////
+  //After a successful call to requestfilesystem in load
+  //////////////////////////////////////////////////////////////////////////////
+  function RequestFileSystemLoad(fs){
+    fs.root.getDirectory("RetireCalc",{create: true}, GotDirectoryLoad);
+  }
+
+  
+  //////////////////////////////////////////////////////////////////////////////
+  //After a successful call to getfile in save
+  //////////////////////////////////////////////////////////////////////////////
+  function GotFileEntrySave(fe){
+    // Create a FileWriter object for our FileEntry (log.txt).
+    fe.createWriter(function(fileWriter) {
+      fileWriter.onwriteend = function(e) {
+        $ionicLoading.hide();
+        console.log('Write completed.');
+      };
+      
+      fileWriter.onerror = function(e) {
+        $ionicLoading.hide();
+        console.log('Write failed: ' + e.toString());
+      };
+      // Create a new Blob and write it to log.txt.
+      var blob = new Blob([$scope.monthlyIncome.toString(), 
+                           "," + $scope.currentNetWorth.toString(),
+                           "," + $scope.savingRate.toString(),
+                           "," + $scope.withdrawalRate.toString(),
+                           "," + $scope.expectedReturn.toString(),
+                           ","],
+                          {type: 'text/plain'});
+      fileWriter.write(blob);
+    }, GetReaderWriterError);//end create writer
+  }
+  //////////////////////////////////////////////////////////////////////////////
+  //After a successful call to getDirectory in Save
+  //////////////////////////////////////////////////////////////////////////////
+  function GotDirectorySave(dirEntry) {
+    dirEntry.getFile("retireData.txt", {create: true, exclusive: false}, 
+                     GotFileEntrySave, //on success
+                     GetFileError);    //on failure
+  }
+  //////////////////////////////////////////////////////////////////////////////
+  //After a Successful call to Requestfilesystem in save
+  //////////////////////////////////////////////////////////////////////////////
+  function RequestFileSystemSave(fs){
+    fs.root.getDirectory("RetireCalc",{create: true}, GotDirectorySave);
+  }
+  
+  //////////////////////////////////////////////////////////////////////////////
+  //Saves slider data to a file
+  //////////////////////////////////////////////////////////////////////////////
+  $scope.save = function() {
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+    
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, 
+                             RequestFileSystemSave ,//on success
+                             GetFileSystemError);   //on failure
+  }
+  //////////////////////////////////////////////////////////////////////////////
+  //Loads slider data from a file
+  //////////////////////////////////////////////////////////////////////////////
+  $scope.load = function() {
+    $ionicLoading.show({
+      template: 'Loading...'
+    });
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, 
+                             RequestFileSystemLoad, //on success
+                             GetFileSystemError);   //on failure
+    $ionicLoading.hide();
+  }
+  
+  //On controller start/////////////////////////////////////////////////////////
+  //We need to call this function so we calculate on start up
+  $scope.sharedData.calculateRetirement();
+  document.addEventListener("deviceready", onDeviceReady, false);
+  function onDeviceReady() {
+    $scope.load();
+  }
+  document.addEventListener("pause", onPause, false);
+  function onPause() {
+    $scope.save();
+  }
+  
+  
+  
 });
